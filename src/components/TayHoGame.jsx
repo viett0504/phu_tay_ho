@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Volume2, VolumeX, RotateCcw, MapPin, Sparkles } from 'lucide-react';
 import { kichbanData } from '../data/kichbanData';
 import DialogueBox from './DialogueBox';
-import CouponCard from './CouponCard';
 
 export default function TayHoGame() {
   const [currentStage, setCurrentStage] = useState(0);
