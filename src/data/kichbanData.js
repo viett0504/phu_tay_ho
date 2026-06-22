@@ -1,9 +1,9 @@
-import anh1 from '../assets/ảnh1.png';
-import anh2 from '../assets/ảnh2.jpg';
-import anh3 from '../assets/ảnh3.jpg';
-import anh4 from '../assets/ảnh4.jpg';
-import anh5 from '../assets/ảnh5.jpg';
-import anh6 from '../assets/ảnh6.jpg';
+import anh1 from '../assets/anh1.png';
+import anh2 from '../assets/anh2.jpg';
+import anh3 from '../assets/anh3.jpg';
+import anh4 from '../assets/anh4.jpg';
+import anh5 from '../assets/anh5.jpg';
+import anh6 from '../assets/anh6.jpg';
 
 export const kichbanData = [
   {
