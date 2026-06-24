@@ -1,4 +1,4 @@
-KỊCH BẢN TƯƠNG TÁC THỰC ĐỊA: TÂY HỒ HUYỀN THOẠI
+KỊCH BẢN TƯƠNG TÁC THỰC ĐỊA: Tây Hồ Huyền Tích
 
 Hình thức: Web App di động (Mobile-first) - Quét QR Code thực địa không cần tải app.
 Thể loại: Visual Novel kết hợp Scrollytelling & Trò chơi hóa thực địa (Gamification).

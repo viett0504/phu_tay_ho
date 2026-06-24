@@ -7,7 +7,8 @@ export default function TayHoGame() {
   const [currentStage, setCurrentStage] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
   const [dialogueVisible, setDialogueVisible] = useState(false);
-  
+  const [showDialogueBox, setShowDialogueBox] = useState(false);
+
   // Dialogue state machine variables
   const [dialogueState, setDialogueState] = useState('dialogues'); // 'dialogues', 'choices', 'choice_feedback', 'question1', 'question1_feedback', 'postVerifiedDialogues', 'question2', 'question2_feedback', 'postQuestion2Dialogues', 'question3', 'question3_feedback', 'postQuestion3Dialogues', 'wishChoices', 'wish_feedback', 'postWishDialogues', 'endingDialogues', 'complete', 'final'
   const [dialogueIndex, setDialogueIndex] = useState(0);
@@ -22,7 +23,7 @@ export default function TayHoGame() {
   const [wrongChoiceIndex, setWrongChoiceIndex] = useState(null);
   const [incorrectFlash, setIncorrectFlash] = useState(false);
   const [bgTransitioning, setBgTransitioning] = useState(false);
-  
+
   // Audio states
   const [audioEnabled, setAudioEnabled] = useState(false);
   const audioCtxRef = useRef(null);
@@ -43,17 +44,19 @@ export default function TayHoGame() {
   // Manage dialogue visibility timing (delay Chặng 0 dialogue box until Cô Bơ fades in)
   useEffect(() => {
     if (gameStarted) {
+      setDialogueVisible(true);
       if (currentStage === 0) {
-        setDialogueVisible(false);
+        setShowDialogueBox(false);
         const timer = setTimeout(() => {
-          setDialogueVisible(true);
+          setShowDialogueBox(true);
         }, 3000); // 3 seconds matching the fade-in animation
         return () => clearTimeout(timer);
       } else {
-        setDialogueVisible(true);
+        setShowDialogueBox(true);
       }
     } else {
       setDialogueVisible(false);
+      setShowDialogueBox(false);
     }
   }, [currentStage, gameStarted]);
 
@@ -81,10 +84,10 @@ export default function TayHoGame() {
       if (ctx.state === 'suspended') {
         ctx.resume();
       }
-      
+
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
-      
+
       if (isSuccess) {
         // Pentatonic C5 (523.25) -> G5 (783.99) chime
         osc.frequency.setValueAtTime(523.25, ctx.currentTime);
@@ -101,10 +104,10 @@ export default function TayHoGame() {
         osc.start();
         osc.stop(ctx.currentTime + 0.35);
       }
-      
+
       osc.connect(gain);
       gain.connect(ctx.destination);
-    } catch(e) {}
+    } catch (e) { }
   };
 
   // Web Audio ambient music player (Vietnamese Pentatonic Synth)
@@ -136,12 +139,12 @@ export default function TayHoGame() {
     if (!ctx) return;
 
     const scale = [261.63, 293.66, 349.23, 392.00, 440.00, 523.25];
-    
+
     // Low wave/drone
     const droneOsc = ctx.createOscillator();
     const droneGain = ctx.createGain();
     droneOsc.type = 'triangle';
-    droneOsc.frequency.setValueAtTime(65.41, ctx.currentTime); 
+    droneOsc.frequency.setValueAtTime(65.41, ctx.currentTime);
     droneGain.gain.setValueAtTime(0.04, ctx.currentTime);
     droneOsc.connect(droneGain);
     droneGain.connect(ctx.destination);
@@ -149,28 +152,28 @@ export default function TayHoGame() {
 
     const triggerNote = () => {
       if (!audioEnabled && synthIntervalRef.current === null) {
-        try { droneOsc.stop(); } catch(e){}
+        try { droneOsc.stop(); } catch (e) { }
         return;
       }
-      
+
       const osc = ctx.createOscillator();
       const gainNode = ctx.createGain();
       osc.type = 'sine';
-      
+
       const baseFreq = scale[Math.floor(Math.random() * scale.length)];
       osc.frequency.setValueAtTime(baseFreq, ctx.currentTime);
-      
+
       gainNode.gain.setValueAtTime(0, ctx.currentTime);
-      gainNode.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 0.05); 
-      gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.8); 
-      
+      gainNode.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 0.05);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.8);
+
       osc.frequency.linearRampToValueAtTime(baseFreq + 4, ctx.currentTime + 0.1);
       osc.frequency.linearRampToValueAtTime(baseFreq - 4, ctx.currentTime + 0.4);
       osc.frequency.linearRampToValueAtTime(baseFreq, ctx.currentTime + 0.7);
 
       osc.connect(gainNode);
       gainNode.connect(ctx.destination);
-      
+
       osc.start();
       osc.stop(ctx.currentTime + 2.0);
     };
@@ -215,8 +218,7 @@ export default function TayHoGame() {
       case 'choice_feedback':
       case 'wish_feedback':
         return customDialogue;
-      case 'endingDialogues':
-        return stageData.endings[endingChosen || 'A'].dialogues[dialogueIndex];
+
       default:
         return '';
     }
@@ -235,54 +237,37 @@ export default function TayHoGame() {
         } else if (currentStage === 2) {
           setDialogueState('question1');
         } else if (currentStage === 3) {
-          setDialogueState('choices');
+          setDialogueState('question1'); // Stage 3 now uses questions
         } else if (currentStage === 4) {
-          setDialogueState('choices');
+          setDialogueState('question1'); // Stage 4: Điện Sơn Trang
         } else if (currentStage === 5) {
-          setDialogueState('endingDialogues');
-          setDialogueIndex(0);
+          setDialogueState('question1'); // Stage 5: Lầu Cô - Lầu Cậu
+        } else if (currentStage === 6) {
+          // Stage 6: cứ đọc hết dialogues rồi → final
+          setDialogueState('final');
         }
       }
-    } 
-    else if (dialogueState === 'choice_feedback') {
-      if (currentStage === 0) {
-        setDialogueState('complete');
-        if (stageData.countdown > 0) {
-          startCountdown(stageData.countdown);
-        }
-      } else if (currentStage === 3) {
-        setDialogueState('postChoiceDialogues');
-        setDialogueIndex(0);
-      } else if (currentStage === 4) {
-        if (wishPath !== null) {
-          setDialogueState('postWishDialogues');
-          setDialogueIndex(0);
-          if (stageData.countdown > 0) {
-            startCountdown(stageData.countdown);
-          }
-        } else {
-          setDialogueState('postChoiceDialogues');
-          setDialogueIndex(0);
-        }
-      }
-    } 
+    }
     else if (dialogueState === 'postChoiceDialogues') {
       if (dialogueIndex < stageData.postChoiceDialogues.length - 1) {
         setDialogueIndex(prev => prev + 1);
       } else {
-        if (currentStage === 3) {
+        if (currentStage === 0) {
           setDialogueState('complete');
           if (stageData.countdown > 0) {
             startCountdown(stageData.countdown);
           }
-        } else if (currentStage === 4) {
-          setDialogueState('wishChoices');
+        } else if (currentStage === 3) {
+          setDialogueState('complete');
+          if (stageData.countdown > 0) {
+            startCountdown(stageData.countdown);
+          }
         }
       }
     }
     else if (dialogueState === 'wish_feedback') {
-      setDialogueState('postWishDialogues');
-      setDialogueIndex(0);
+      // wish reply chứa sẵn nội dung kết thúc → complete luôn
+      setDialogueState('complete');
     }
     else if (dialogueState === 'postWishDialogues') {
       if (dialogueIndex < stageData.postWishDialogues.length - 1) {
@@ -293,15 +278,40 @@ export default function TayHoGame() {
     }
     else if (dialogueState === 'question1_feedback') {
       if (wrongChoiceIndex !== null) {
-        setDialogueState('question1');
-        setWrongChoiceIndex(null);
+        if (currentStage === 2) {
+          // Stage 2: sai cũng tiến lên postQuestion1Dialogues
+          setWrongChoiceIndex(null);
+          setDialogueState('postQuestion1Dialogues');
+          setDialogueIndex(0);
+        } else {
+          // Stage 1, 3, 4: sai → hỏi lại
+          setDialogueState('question1');
+          setWrongChoiceIndex(null);
+        }
       } else {
         if (currentStage === 1) {
-          setDialogueState('postVerifiedDialogues');
-          setDialogueIndex(0);
+          // Stage 1: trả lời đúng → vào complete + countdown ngay
+          setDialogueState('complete');
+          if (stageData.countdown > 0) {
+            startCountdown(stageData.countdown);
+          }
         } else if (currentStage === 2) {
           setDialogueState('postQuestion1Dialogues');
           setDialogueIndex(0);
+        } else if (currentStage === 3) {
+          // Stage 3: đúng → postVerifiedDialogues
+          setDialogueState('postVerifiedDialogues');
+          setDialogueIndex(0);
+        } else if (currentStage === 4) {
+          // Stage 4 (Điện Sơn Trang): đúng câu 1 (Không có tượng Ngũ Hổ) → question2
+          setDialogueState('question2');
+          setDialogueIndex(0);
+          setVerified(false); // reset để câu hỏi 2 hiển thị choices
+        } else if (currentStage === 5) {
+          // Stage 5 (Lầu Cô - Lầu Cậu): đúng → postQuestion1Dialogues (hiện lời nhắn chọn bên)
+          setDialogueState('postQuestion1Dialogues');
+          setDialogueIndex(0);
+          setVerified(false);
         }
       }
     }
@@ -312,13 +322,29 @@ export default function TayHoGame() {
         if (currentStage === 1) {
           setDialogueState('question2');
           setVerified(false);
+        } else if (currentStage === 3) {
+          // Stage 3: sau postVerifiedDialogues → question2
+          setDialogueState('question2');
+          setVerified(false);
         }
       }
     }
     else if (dialogueState === 'question2_feedback') {
       if (wrongChoiceIndex !== null) {
-        setDialogueState('question2');
-        setWrongChoiceIndex(null);
+        if (currentStage === 3) {
+          // Stage 3: sai cũng tiến lên postQuestion2Dialogues (không loop lại)
+          setWrongChoiceIndex(null);
+          setDialogueState('postQuestion2Dialogues');
+          setDialogueIndex(0);
+        } else if (currentStage === 4) {
+          // Stage 4: sai cũng tiến lên postQuestion2Dialogues
+          setWrongChoiceIndex(null);
+          setDialogueState('postQuestion2Dialogues');
+          setDialogueIndex(0);
+        } else {
+          setDialogueState('question2');
+          setWrongChoiceIndex(null);
+        }
       } else {
         setDialogueState('postQuestion2Dialogues');
         setDialogueIndex(0);
@@ -329,8 +355,14 @@ export default function TayHoGame() {
         setDialogueIndex(prev => prev + 1);
       } else {
         if (currentStage === 2) {
-          setDialogueState('question2');
-          setVerified(false);
+          // Stage 2: sau postQuestion1Dialogues → complete + countdown
+          setDialogueState('complete');
+          if (stageData.countdown > 0) {
+            startCountdown(stageData.countdown);
+          }
+        } else if (currentStage === 5) {
+          // Stage 5: sau postQuestion1Dialogues → wishChoices
+          setDialogueState('wishChoices');
         }
       }
     }
@@ -346,6 +378,18 @@ export default function TayHoGame() {
         } else if (currentStage === 2) {
           setDialogueState('question3');
           setVerified(false);
+        } else if (currentStage === 3) {
+          // Stage 3: sau postQuestion2Dialogues → complete + countdown
+          setDialogueState('complete');
+          if (stageData.countdown > 0) {
+            startCountdown(stageData.countdown);
+          }
+        } else if (currentStage === 4) {
+          // Stage 4 (Điện Sơn Trang): sau postQuestion2Dialogues → complete + countdown
+          setDialogueState('complete');
+          if (stageData.countdown > 0) {
+            startCountdown(stageData.countdown);
+          }
         }
       }
     }
@@ -370,14 +414,7 @@ export default function TayHoGame() {
         }
       }
     }
-    else if (dialogueState === 'endingDialogues') {
-      const endingLines = stageData.endings[endingChosen || 'A'].dialogues;
-      if (dialogueIndex < endingLines.length - 1) {
-        setDialogueIndex(prev => prev + 1);
-      } else {
-        setDialogueState('final');
-      }
-    }
+
   };
 
   // Quiz / choice option select handlers
@@ -386,23 +423,23 @@ export default function TayHoGame() {
       setVerified(true);
       setWrongChoiceIndex(null);
       setCustomDialogue(choice.feedback);
-      
-      const feedbackStateName = 
+
+      const feedbackStateName =
         dialogueState === 'question1' ? 'question1_feedback' :
-        dialogueState === 'question2' ? 'question2_feedback' : 'question3_feedback';
+          dialogueState === 'question2' ? 'question2_feedback' : 'question3_feedback';
       setDialogueState(feedbackStateName);
-      
+
       playChime(true);
     } else {
       setWrongChoiceIndex(idx);
       setIncorrectFlash(true);
       setCustomDialogue(choice.feedback);
-      
-      const feedbackStateName = 
+
+      const feedbackStateName =
         dialogueState === 'question1' ? 'question1_feedback' :
-        dialogueState === 'question2' ? 'question2_feedback' : 'question3_feedback';
+          dialogueState === 'question2' ? 'question2_feedback' : 'question3_feedback';
       setDialogueState(feedbackStateName);
-      
+
       playChime(false);
 
       setTimeout(() => {
@@ -412,15 +449,38 @@ export default function TayHoGame() {
   };
 
   const handleOptionSelect = (choice) => {
-    setDialogueState('choice_feedback');
-    setCustomDialogue(choice.reply);
-    
     if (choice.ending) {
       setEndingChosen(choice.ending);
     }
     if (choice.wish) {
       setWishPath(choice.wish);
     }
+
+    // Nếu reply rỗng → kiểm tra postChoiceDialogues trước
+    if (!choice.reply) {
+      if (stageData.postChoiceDialogues && stageData.postChoiceDialogues.length > 0) {
+        setDialogueState('postChoiceDialogues');
+        setDialogueIndex(0);
+      } else {
+        setDialogueState('complete');
+        if (stageData.countdown > 0) {
+          startCountdown(stageData.countdown);
+        }
+      }
+      playChime(true);
+      return;
+    }
+
+    if (choice.wish) {
+      // Wish choices → wish_feedback (hiện reply rồi → complete)
+      setDialogueState('wish_feedback');
+      setCustomDialogue(choice.reply);
+      playChime(true);
+      return;
+    }
+
+    setDialogueState('choice_feedback');
+    setCustomDialogue(choice.reply);
     playChime(true);
   };
 
@@ -497,7 +557,7 @@ export default function TayHoGame() {
 
   if (!gameStarted) {
     return (
-      <div 
+      <div
         className="relative w-full h-screen overflow-hidden bg-black flex flex-col items-center justify-center transition-all duration-700"
         style={{
           backgroundImage: `linear-gradient(to bottom, rgba(14, 7, 5, 0.5) 0%, rgba(14, 7, 5, 0.4) 50%, rgba(14, 7, 5, 0.95) 100%), url(${kichbanData[0].background})`,
@@ -511,12 +571,13 @@ export default function TayHoGame() {
               Tây Hồ
             </h1>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-extrabold text-[#D4AF37]/90 tracking-[0.2em] uppercase drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] mt-1">
-              Huyền Thoại
+              Huyền Tích
             </h2>
             <div className="h-[2px] w-24 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mt-4" />
-            <p className="text-xs sm:text-sm text-slate-300 font-sans tracking-[0.15em] uppercase mt-2 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
-              Hành Trình Tương Tác Thực Địa Phủ Tây Hồ
+            <p className="text-xs sm:text-sm text-slate-300 font-sans tracking-[0.15em] uppercase mt-2 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)] whitespace-nowrap">
+              Hành trình khám phá di sản bằng trải nghiệm số
             </p>
+
           </div>
 
           <button
@@ -528,7 +589,7 @@ export default function TayHoGame() {
             }}
             className="group relative px-10 py-4 mt-6 rounded-full border-2 border-[#D4AF37] bg-[#1e110d]/80 text-[#D4AF37] hover:text-[#1e110d] hover:bg-[#D4AF37] font-serif font-bold text-base tracking-widest shadow-[0_0_20px_rgba(212,175,55,0.35)] transition-all duration-500 cursor-pointer animate-float"
           >
-            BẮT ĐẦU HÀNH TRÌNH
+            KHÁM PHÁ
           </button>
         </div>
 
@@ -537,20 +598,14 @@ export default function TayHoGame() {
         <div className="absolute top-6 right-6 w-12 h-12 border-t-2 border-r-2 border-[#D4AF37]/45 rounded-tr-lg pointer-events-none" />
         <div className="absolute bottom-6 left-6 w-12 h-12 border-b-2 border-l-2 border-[#D4AF37]/45 rounded-bl-lg pointer-events-none" />
         <div className="absolute bottom-6 right-6 w-12 h-12 border-b-2 border-r-2 border-[#D4AF37]/45 rounded-br-lg pointer-events-none" />
-
-        {/* Bottom copyright/heritage tag */}
-        <div className="absolute bottom-10 z-10 border border-[#D4AF37]/20 bg-black/55 px-4 py-2 text-[10px] sm:text-xs font-serif tracking-[0.2em] text-[#D4AF37]">
-          DI SẢN VĂN HÓA PHI VẬT THỂ
-        </div>
       </div>
     );
   }
 
   return (
-    <div 
-      className={`relative w-full h-screen overflow-hidden bg-black flex flex-col justify-between transition-all duration-700 ${
-        incorrectFlash ? 'animate-incorrect-glow' : ''
-      }`}
+    <div
+      className={`relative w-full h-screen overflow-hidden bg-black flex flex-col justify-between transition-all duration-700 ${incorrectFlash ? 'animate-incorrect-glow' : ''
+        }`}
       style={{
         backgroundImage: `linear-gradient(to bottom, rgba(14, 7, 5, 0.45) 0%, rgba(14, 7, 5, 0.3) 50%, rgba(14, 7, 5, 0.9) 100%), url(${stageData.background})`,
         backgroundSize: 'cover',
@@ -563,29 +618,28 @@ export default function TayHoGame() {
           <div className="flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-full bg-[#D4AF37] animate-pulse" />
             <h2 className="text-sm font-serif font-bold text-[#D4AF37] uppercase tracking-widest">
-              Tây Hồ Huyền Thoại
+              Tây Hồ Huyền Tích
             </h2>
           </div>
-          <div className="flex items-center gap-1 mt-0.5 text-[10px] text-slate-400">
+          {/* <div className="flex items-center gap-1 mt-0.5 text-[10px] text-slate-400">
             <MapPin className="h-3 w-3 text-[#D4AF37]/70" />
             <span>{stageData.location}</span>
-          </div>
+          </div> */}
         </div>
-
+            
         {/* Audio and Restart buttons */}
         <div className="flex items-center gap-2">
           <button
             onClick={toggleAudio}
-            className={`p-2 rounded-full border transition-all duration-300 cursor-pointer ${
-              audioEnabled 
-                ? 'bg-[#D4AF37]/20 border-[#D4AF37] text-[#D4AF37]' 
-                : 'bg-black/60 border-slate-700 text-slate-400 hover:border-slate-500'
-            }`}
+            className={`p-2 rounded-full border transition-all duration-300 cursor-pointer ${audioEnabled
+              ? 'bg-[#D4AF37]/20 border-[#D4AF37] text-[#D4AF37]'
+              : 'bg-black/60 border-slate-700 text-slate-400 hover:border-slate-500'
+              }`}
             title={audioEnabled ? "Tắt âm thanh" : "Bật âm thanh"}
           >
             {audioEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
           </button>
-          
+
           <button
             onClick={resetGame}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/60 border border-slate-700 text-slate-300 hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-300 cursor-pointer text-[10px] font-serif font-bold uppercase tracking-wider shadow-md"
@@ -601,68 +655,51 @@ export default function TayHoGame() {
       <div className="absolute top-[68px] left-0 w-full px-5 z-20">
         <div className="flex justify-between text-[9px] text-[#D4AF37]/80 font-serif mb-1 px-0.5">
           <span>HÀNH TRÌNH THỰC ĐỊA</span>
-          <span>CHẶNG {currentStage}/5</span>
+          <span>CHẶNG {currentStage}/6</span>
         </div>
         <div className="w-full h-1 bg-black/50 rounded-full overflow-hidden border border-[#D4AF37]/15">
-          <div 
+          <div
             className="h-full bg-gradient-to-r from-[#D4AF37] to-[#FFB74D] rounded-full transition-all duration-500"
-            style={{ width: `${(currentStage / 5) * 100}%` }}
+            style={{ width: `${(currentStage / 6) * 100}%` }}
           />
         </div>
       </div>
 
       <div className="flex-grow flex items-end justify-center relative px-4 select-none z-10 pointer-events-none mt-14 pb-0 min-h-[200px] sm:min-h-[280px]">
-        {stageData.character && dialogueState !== 'complete' && dialogueState !== 'final' && (
-          <img
-            src={stageData.character}
-            alt={stageData.characterName}
-            className={`h-[40vh] md:h-[46vh] max-h-[340px] md:max-h-[400px] object-contain transition-all duration-1000 pointer-events-auto ${getCharacterClassName()}`}
-          />
-        )}
       </div>
 
       {/* Interface Dialogue Box Section */}
-      <div 
+      <div
         className={`w-full p-4 pb-6 relative z-20 flex flex-col items-center gap-3 shrink-0 transition-opacity duration-1000 ${
-          dialogueVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          gameStarted && dialogueVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
       >
-        {dialogueVisible && (
+        {gameStarted && stageData.character && dialogueState !== 'complete' && dialogueState !== 'final' && (
+          <div className="w-full max-w-4xl relative h-0 pointer-events-none">
+            <img
+              src={stageData.character}
+              alt={stageData.characterName}
+              className={`absolute bottom-[-32px] h-[66vh] max-h-[600px] object-contain pointer-events-auto z-0 ${
+                currentStage === 0 && !showDialogueBox
+                  ? 'left-1/2 -translate-x-1/2 origin-bottom'
+                  : 'left-2 sm:left-4 origin-bottom-left'
+              } ${getCharacterClassName()}`}
+            />
+          </div>
+        )}
+        {gameStarted && dialogueVisible && (
           dialogueState === 'final' ? (
-            // Final stage displays customized ending details and a simplified blessing layout
+            // Final screen: sau khi đọc hết dialogues stage 6
             <div className="w-full flex flex-col items-center gap-4 py-2">
-              <div className="relative w-full max-w-2xl bg-[#1e110d]/90 border border-[#D4AF37]/50 rounded-2xl p-6 sm:p-8 shadow-[0_15px_40px_rgba(0,0,0,0.95)] backdrop-blur-md">
+              <div className="relative w-full max-w-2xl bg-[#1e110d]/90 border border-[#D4AF37]/50 rounded-2xl p-6 sm:p-8 shadow-[0_15px_40px_rgba(0,0,0,0.95)] backdrop-blur-md text-center">
                 <div className="absolute -top-3.5 left-6 bg-gradient-to-r from-[#D4AF37] to-[#F3E5AB] text-[#1e110d] px-5 py-1 rounded-full text-xs font-serif font-extrabold uppercase tracking-widest shadow-md border border-[#D4AF37]/30">
                   {stageData.speaker}
                 </div>
-                <p className="text-[#FFB74D] text-[10px] sm:text-xs font-serif font-bold uppercase tracking-widest block mb-2 text-left">
-                  {stageData.speakerRole}
-                </p>
-                
-                {/* Ending final dialogue */}
-                <p className="text-slate-100 text-sm sm:text-base leading-relaxed text-justify font-sans">
-                  {stageData.endings[endingChosen || 'A'].dialogues[stageData.endings[endingChosen || 'A'].dialogues.length - 1]}
-                </p>
-                
-                {/* Visual Separator */}
-                <div className="h-[1px] w-full bg-[#D4AF37]/30 my-4" />
-                
-                {/* Words of Mẫu Section */}
-                <p className="text-slate-200 text-sm sm:text-base leading-relaxed text-justify font-sans whitespace-pre-line pl-3 border-l-2 border-[#D4AF37]/50 mt-4">
-                  Hành trình kết thúc. Nhưng việc gìn giữ di sản thì không.
-                  {"\n\n"}
-                  Mỗi câu chuyện được lắng nghe.
-                  {"\n"}
-                  Mỗi giá trị được trân trọng.
-                  {"\n"}
-                  Mỗi di sản được khám phá.
-                  {"\n\n"}
-                  Đều là một cách để quá khứ tiếp tục sống trong hiện tại.
-                  {"\n\n"}
+                <p className="text-slate-200 text-sm sm:text-base leading-relaxed font-sans whitespace-pre-line mt-2">
                   Cảm ơn con đã đồng hành cùng Phủ Tây Hồ.
                 </p>
               </div>
-              
+
               <button
                 onClick={resetGame}
                 className="mt-4 px-8 py-3 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#FFB74D] text-[#1a0f0d] hover:brightness-110 active:scale-95 font-serif font-bold text-sm tracking-widest shadow-lg transition-all duration-300 cursor-pointer flex items-center gap-1.5"
@@ -673,7 +710,7 @@ export default function TayHoGame() {
           ) : (
             // Dialogue & Actions Box
             <>
-              {dialogueState !== 'complete' && (
+              {dialogueState !== 'complete' && showDialogueBox && (
                 <DialogueBox
                   speaker={stageData.speaker}
                   speakerRole={stageData.speakerRole}
@@ -687,6 +724,7 @@ export default function TayHoGame() {
                   audioEnabled={audioEnabled}
                   toggleAudio={toggleAudio}
                   onNext={handleDialogueNext}
+                  character={stageData.character}
                 />
               )}
 
@@ -697,11 +735,10 @@ export default function TayHoGame() {
                   <button
                     disabled={countdownActive}
                     onClick={handleNextStage}
-                    className={`w-full py-3 px-6 rounded-xl font-serif font-bold text-sm uppercase tracking-widest shadow-lg transition-all duration-300 cursor-pointer flex justify-center items-center gap-2 ${
-                      countdownActive
-                        ? 'bg-slate-800/80 border border-slate-700 text-slate-500 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-[#D4AF37] to-[#FFB74D] text-[#1e110d] hover:brightness-110 active:scale-[0.98]'
-                    }`}
+                    className={`w-full py-3 px-6 rounded-xl font-serif font-bold text-sm uppercase tracking-widest shadow-lg transition-all duration-300 cursor-pointer flex justify-center items-center gap-2 ${countdownActive
+                      ? 'bg-slate-800/80 border border-slate-700 text-slate-500 cursor-not-allowed'
+                      : 'bg-gradient-to-r from-[#D4AF37] to-[#FFB74D] text-[#1e110d] hover:brightness-110 active:scale-[0.98]'
+                      }`}
                   >
                     {countdownActive ? (
                       <>
@@ -722,10 +759,9 @@ export default function TayHoGame() {
       </div>
 
       {/* Black Transition Overlay */}
-      <div 
-        className={`absolute inset-0 bg-black z-50 pointer-events-none transition-opacity duration-500 ${
-          bgTransitioning ? 'opacity-100' : 'opacity-0'
-        }`}
+      <div
+        className={`absolute inset-0 bg-black z-50 pointer-events-none transition-opacity duration-500 ${bgTransitioning ? 'opacity-100' : 'opacity-0'
+          }`}
       />
     </div>
   );

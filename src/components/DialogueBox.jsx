@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
 
-export default function DialogueBox({ 
-  speaker, 
+export default function DialogueBox({
+  speaker,
   speakerRole,
-  dialogue, 
-  onOptionSelect, 
-  choices, 
+  dialogue,
+  onOptionSelect,
+  choices,
   question,
   wrongChoiceIndex,
   onChoiceSelect,
   verified,
   audioEnabled,
   toggleAudio,
-  onNext
+  onNext,
+  character
 }) {
   const [displayedText, setDisplayedText] = useState('');
-  
+
   // Reset text and do a typewriter effect when the dialogue changes
   useEffect(() => {
     if (!dialogue) {
@@ -25,7 +26,7 @@ export default function DialogueBox({
     const cleanText = dialogue.normalize('NFC');
     let index = 0;
     setDisplayedText('');
-    
+
     const interval = setInterval(() => {
       if (index < cleanText.length) {
         setDisplayedText(cleanText.slice(0, index + 1));
@@ -43,15 +44,14 @@ export default function DialogueBox({
   const activeSpeaker = hasOptions ? "BẠN" : speaker;
 
   return (
-    <div 
+    <div
       onClick={isDialogueOnly ? onNext : undefined}
-      className={`relative w-full max-w-4xl bg-[#1a0f0d]/90 border border-[#D4AF37]/45 rounded-2xl p-6 sm:p-8 pb-10 shadow-[0_15px_40px_rgba(0,0,0,0.95)] backdrop-blur-md transition-all duration-300 ${
-        isDialogueOnly ? 'cursor-pointer hover:border-[#D4AF37]/80' : ''
-      }`}
+      className={`relative w-full max-w-4xl bg-[#1a0f0d]/90 border border-[#D4AF37]/45 rounded-2xl p-6 sm:p-8 pb-10 shadow-[0_15px_40px_rgba(0,0,0,0.95)] backdrop-blur-md transition-all duration-300 z-10 ${isDialogueOnly ? 'cursor-pointer hover:border-[#D4AF37]/80' : ''
+        }`}
     >
       {/* Speaker Name Badge (Visual Novel style) */}
       {activeSpeaker && (
-        <div className="absolute -top-4 left-6 md:left-10 bg-[#D4AF37] text-[#1a0f0d] px-6 py-1.5 rounded-full text-xs font-serif font-extrabold uppercase tracking-widest shadow-lg border border-white/20 select-none">
+        <div className="absolute -top-4 right-6 md:right-10 bg-[#D4AF37] text-[#1a0f0d] px-6 py-1.5 rounded-full text-xs font-serif font-extrabold uppercase tracking-widest shadow-lg border border-white/20 select-none">
           {activeSpeaker}
         </div>
       )}
@@ -65,12 +65,14 @@ export default function DialogueBox({
               {speakerRole}
             </span>
           )}
-          
-          <div className="min-h-[60px]">
-            <p className="text-slate-200 text-sm sm:text-base md:text-lg leading-relaxed font-sans text-justify drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
-              {displayedText}
-            </p>
-          </div>
+
+          {displayedText && (
+            <div className="min-h-[40px] mb-3">
+              <p className="text-slate-200 text-sm sm:text-base md:text-lg leading-relaxed font-sans text-justify drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+                {displayedText}
+              </p>
+            </div>
+          )}
 
           {/* Interactive Options - Quiz Questions (Chặng 1, 2) */}
           {question && !verified && (
@@ -88,11 +90,10 @@ export default function DialogueBox({
                         e.stopPropagation();
                         onChoiceSelect(choice, idx);
                       }}
-                      className={`w-full text-left px-4 py-2.5 rounded-lg border text-xs sm:text-sm font-sans transition-all duration-300 cursor-pointer ${
-                        isWrong
-                          ? 'bg-red-950/50 border-red-500 text-red-200 animate-pulse'
-                          : 'bg-black/35 border-[#D4AF37]/25 text-slate-200 hover:border-[#D4AF37]/80 hover:bg-[#D4AF37]/10'
-                      }`}
+                      className={`w-full text-left px-4 py-2.5 rounded-lg border text-xs sm:text-sm font-sans transition-all duration-300 cursor-pointer ${isWrong
+                        ? 'bg-red-950/50 border-red-500 text-red-200 animate-pulse'
+                        : 'bg-black/35 border-[#D4AF37]/25 text-slate-200 hover:border-[#D4AF37]/80 hover:bg-[#D4AF37]/10'
+                        }`}
                     >
                       <span className="font-serif text-[#D4AF37] mr-2">{String.fromCharCode(65 + idx)}.</span>
                       {choice.text}

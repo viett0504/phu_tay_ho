@@ -4,346 +4,312 @@ import anh3 from '../assets/anh3.jpg';
 import anh4 from '../assets/anh4.jpg';
 import anh5 from '../assets/anh5.jpg';
 import anh6 from '../assets/anh6.jpg';
+import anh7 from '../assets/anh7.jpg';
 
 export const kichbanData = [
   {
     stage: 0,
     title: "Khởi Hành",
     location: "Vị trí: Quán nước ven hồ",
-    speaker: "Mẫu",
+    speaker: "Cô",
 
     background: anh2,
     character: anh1,
-    characterName: "Mẫu",
+    characterName: "Cô",
     characterStyle: "max-h-[340px] md:max-h-[420px] w-auto drop-shadow-[0_4px_25px_rgba(0,0,0,0.7)] brightness-[0.7] opacity-60",
     dialogues: [
-      "Cháu vừa ngồi xuống quán này. Tôi đã đợi cháu — từ lâu lắm rồi.",
-      "Tôi tên — tôi không cần nói tên. Người ta gọi tôi là Mẫu. Mẹ của thiên hạ.",
-      "Bốn trăm năm trước, tại đúng bờ hồ này, tôi đã ngồi như tôi đang ngồi với cháu hôm nay.",
-      "Có một quan trạng ghé quán tôi. Ông uống chén nước, chúng tôi đối đáp thơ phú.",
-      "Sáng hôm sau ông quay lại — quán không còn. Ông dựng đền — chính tại đây.",
-      "Đền đó — bây giờ là Phủ Tây Hồ. Cháu đang ngồi cách phủ tôi chỉ vài bước chân.",
-      "Bốn trăm năm — tôi vẫn ở đây. Tôi muốn cháu — không chỉ ngồi. Tôi muốn cháu đi.",
-      "Đi quanh phủ tôi — như quan trạng đã đi sau khi gặp tôi.",
-      "Mỗi điểm cháu dừng — tôi sẽ kể cháu một mảnh. Cháu trả lời tôi một câu — tôi sẽ kể tiếp.",
-      "Bắt đầu nhé?"
+      "Chào con.",
+      "Người ta thường nghĩ rằng muốn khám phá một vùng đất thì phải đi thật xa. Nhưng có những câu chuyện lại nằm ngay dưới bước chân mình.",
+      "Hôm nay, ta sẽ dẫn con đi qua những mảnh ký ức đang ngủ quên nơi này.",
+      "Mỗi điểm dừng là một câu chuyện. Mỗi câu chuyện là một manh mối.",
+      "Và chỉ khi ghép đủ chúng lại, con mới nhìn thấy bức tranh hoàn chỉnh.",
+      "Con đã sẵn sàng chưa?"
     ],
     choices: [
       {
-        text: "Vâng — bà dẫn cháu đi.",
-        reply: "Tốt. Bước đầu tiên — cháu đứng dậy. Đi đến cổng phủ."
-      },
-      {
-        text: "Cháu lo — sợ không hiểu.",
-        reply: "Không cần hiểu. Chỉ cần đi. Bước đầu tiên — cháu đứng dậy. Đi đến cổng phủ."
+        text: "BẮT ĐẦU HÀNH TRÌNH",
+        reply: ""
       }
     ],
-    buttonText: "Tôi đã đến cổng phủ",
-    countdown: 30
+    postChoiceDialogues: [
+      "Muốn bước vào một nơi linh thiêng, trước tiên phải đi qua cánh cửa của sự quan sát.",
+      "Và cánh cửa đầu tiên đang ở ngay phía trước con.",
+      "Ta có những câu hỏi nhưng đáp án không nằm ở đây.",
+      "Hãy đi đến Tam Quan của phủ, đứng trước cổng và nhìn thật kỹ.",
+      "Trên Tam Quan có rất nhiều chi tiết mà người ta thường vô tình bỏ qua."
+    ],
+    buttonText: "ĐÃ ĐẾN TAM QUAN PHỦ",
+    countdown: 10
   },
   {
     stage: 1,
     title: "Tam Quan Phủ",
     location: "Vị trí: Cổng Tam Quan trước phủ",
-    speaker: "Mẫu",
+    speaker: "Cô",
 
     background: anh3,
     character: anh1,
-    characterName: "Mẫu",
+    characterName: "Cô",
     characterStyle: "max-h-[340px] md:max-h-[420px] w-auto drop-shadow-[0_4px_25px_rgba(0,0,0,0.7)] brightness-[0.95]",
     dialogues: [
-      "Cháu đã đến. Cháu đang đứng trước Tam quan — cổng vào phủ tôi.",
-      "Tôi muốn cháu — ngẩng đầu lên. Nhìn 4 chữ Hán trên cổng."
+      "Tốt lắm. Con đã bước những bước đầu tiên trên hành trình này.",
+      "Nhưng để vào được câu chuyện của Phủ Tây Hồ, con phải đi qua cánh cổng của ký ức.",
+      "Hãy ngẩng đầu nhìn về trước mắt, cho ta biết: Cổng Tam Quan có bao nhiêu lối đi?"
     ],
     question: {
-      text: "Cháu có thấy 4 chữ Hán trên đầu cổng tam quan không?",
+      text: "Cổng Tam Quan có bao nhiêu lối đi?",
       choices: [
         {
-          text: "Có — cháu thấy rồi.",
-          correct: true,
-          feedback: "Bốn chữ đó là — Phong đài nguyệt các. Dịch nghĩa: Đài gió, gác trăng. Một tuyên bố: bên trong cổng này — không phải phố. Đây là nơi của gió và trăng."
+          text: "1 lối",
+          correct: false,
+          feedback: "Hãy quan sát lại thật kỹ. Tìm lại đúng vị trí và đếm chính xác hơn nhé."
         },
         {
-          text: "Cháu chưa thấy — cháu đang tìm.",
+          text: "2 lối",
           correct: false,
-          feedback: "Cháu hãy dừng lại quan sát một chút nhé, bốn chữ Hán lớn ngay trên vòm cuốn chính giữa đấy."
+          feedback: "Hãy quan sát lại thật kỹ. Tìm lại đúng vị trí và đếm chính xác hơn nhé."
+        },
+        {
+          text: "3 lối",
+          correct: true,
+          feedback: "Chính xác! Tam Quan có 3 lối đi. Cửa giữa dành cho bậc tôn quý, hai cửa bên dành cho người thường. Hãy bước qua để vào sân phủ."
         }
       ]
     },
-    // Next part of Stage 1 dialogues after verified
-    postVerifiedDialogues: [
-      "Cháu nhìn xuống dưới đi. Có một câu đối — hai bên trụ cổng.",
-      "Câu đối đó — kể chuyện một cuộc gặp gỡ 400 năm trước.",
-      "Cuộc gặp giữa quan trạng và một bà cụ bên quán nước. Cháu biết quan trạng tên gì không?"
-    ],
-    question2: {
-      text: "Cháu biết quan trạng tên gì không?",
-      choices: [
-        {
-          text: "Phùng Khắc Khoan.",
-          correct: true,
-          feedback: "Cháu thông minh. Phùng Khắc Khoan. Trạng nguyên đi sứ. Câu đối này — là cách dân làng nhớ cuộc gặp đó."
-        },
-        {
-          text: "Cháu không biết.",
-          correct: false,
-          feedback: "Phùng Khắc Khoan. Trạng nguyên Việt Nam thế kỷ 16. Ông đi sứ Trung Hoa — về qua Hồ Tây — ghé quán nước. Ghé một quán nước của một bà cụ. Bà cụ đó — là tôi."
-        },
-        {
-          text: "Đó là ông trạng từng đi sứ?",
-          correct: true,
-          feedback: "Chính xác. Phùng Khắc Khoan. Trạng nguyên đi sứ. Câu đối này — là cách dân làng nhớ cuộc gặp đó. Bà cụ bán nước khi đó chính là tôi."
-        }
-      ]
-    },
-    postQuestion2Dialogues: [
-      "Bước qua cổng đi. Vào sân phủ."
-    ],
     buttonText: "Tôi đã vào sân phủ",
-    countdown: 20
+    countdown: 10
   },
+
   {
     stage: 2,
     title: "Sân Phủ",
     location: "Vị trí: Khoảng sân rộng trước Tam Tòa",
-    speaker: "Mẫu",
+    speaker: "Cô",
     background: anh4,
     character: anh1,
-    characterName: "Mẫu",
+    characterName: "Cô",
     characterStyle: "max-h-[340px] md:max-h-[420px] w-auto drop-shadow-[0_4px_25px_rgba(0,0,0,0.7)] brightness-[0.95]",
     dialogues: [
-      "Cháu đang đứng trong sân phủ tôi.",
-      "Cháu thấy ngôi nhà phía trước — chia làm ba lớp đúng không? Lớp đầu — Tiền tế. Lớp giữa — Trung đường. Lớp cuối — Hậu cung.",
-      "Tôi đố cháu một điều — lớp nào THẤP NHẤT?"
+      "Con hãy nhìn xuống dưới. Có một câu đối — hai bên trụ cổng.",
+      "Câu đối đó kể chuyện về một cuộc gặp gỡ 400 năm trước. Cuộc gặp giữa quan trạng và Công chúa Liễu Hạnh bên quán nước. Con có biết quan trạng tên gì không?"
     ],
     question: {
-      text: "Nếp điện thờ nào thấp nhất trong ba nếp phủ chính?",
+      text: "Quan trạng trong câu chuyện tên gì?",
       choices: [
         {
-          text: "Tiền tế (lớp đầu)",
+          text: "Trần Đạo Lang",
           correct: false,
-          feedback: "Cháu quan sát lại đi. Đi gần hơn — nhìn các bậc thềm."
+          feedback: "Đó là Phùng Khắc Khoan. Một vị trạng nguyên nổi tiếng của nước ta. Tương truyền, trên đường trở về sau chuyến đi sứ, ông ghé vào một quán nước bên Hồ Tây. Và tại đó, ông gặp công chúa Liễu Hạnh."
         },
         {
-          text: "Trung đường (lớp giữa)",
-          correct: false,
-          feedback: "Cháu quan sát lại đi. Đi gần hơn — nhìn các bậc thềm."
-        },
-        {
-          text: "Hậu cung (lớp cuối)",
+          text: "Phùng Khắc Khoan",
           correct: true,
-          feedback: "Cháu tinh. Hậu cung — thấp nhất. Cháu có biết tại sao không? Vì người vào — phải cúi mình. Càng vào trong càng thấp, càng tối, càng tĩnh. Đó là quy luật âm dương cổ — tiền tôn hậu ty. Và chính ở nơi thấp nhất ấy — là chỗ tôi ngự."
+          feedback: "Đúng rồi. Đó là Phùng Khắc Khoan. Người ta kể rằng ông từng dừng chân bên một quán nước ven Hồ Tây. Đôi câu đối này chính là cách dân gian lưu lại cuộc gặp năm ấy."
+        },
+        {
+          text: "Trạng Quỳnh",
+          correct: false,
+          feedback: "Đó là Phùng Khắc Khoan. Một vị trạng nguyên nổi tiếng của nước ta. Tương truyền, trên đường trở về sau chuyến đi sứ, ông ghé vào một quán nước bên Hồ Tây. Và tại đó, ông gặp công chúa Liễu Hạnh."
         }
       ]
     },
     postQuestion1Dialogues: [
-      "Cháu có thấy — toàn bộ kiến trúc này — không cũ như cháu tưởng không?"
+      "Tốt rồi! Con đã tìm được manh mối đầu tiên.",
+      "Nhưng hành trình vẫn chưa hết đâu. Theo ta vào sân phủ nhé.",
+      "Ở đây còn giấu một bí mật thú vị về cách người xưa xây dựng ngôi phủ này. Hãy tìm ban thờ Tam Tòa Thánh Mẫu."
     ],
-    question2: {
-      text: "Cháu thấy kiến trúc này thế nào?",
+    buttonText: "ĐÃ ĐẾN TAM TÒA THÁNH MẪU",
+    countdown: 5
+  },
+
+  {
+    stage: 3,
+    title: "Tam Tòa Thánh Mẫu",
+    location: "Vị trí: Ban thờ Tam Tòa Thánh Mẫu",
+    speaker: "Cô",
+    background: anh5,
+    character: anh1,
+    characterName: "Cô",
+    characterStyle: "max-h-[340px] md:max-h-[420px] w-auto drop-shadow-[0_4px_25px_rgba(0,0,0,0.7)] brightness-[0.95]",
+    dialogues: [
+      "Trước mặt con có ngôi nhà 2 tầng nhỏ ở giữa sân gọi là Tam Tòa Thánh Mẫu, chia làm 3 nếp — Tiền tế, Trung đường, Hậu cung.",
+      "Hãy nhìn vào Tiền tế (lớp đầu) và cho ta biết có bao nhiêu cửa chính phía trước?"
+    ],
+    question: {
+      text: "Tiền tế có bao nhiêu cửa chính phía trước?",
       choices: [
         {
-          text: "Có — cháu thấy nó như mới.",
+          text: "3 cửa",
           correct: true,
-          feedback: "Đúng vậy. Năm 1947 — giặc Pháp thiêu hủy cả làng Tây Hồ. Phủ tôi bị phá. Người dân chạy hết. Sau khi giặc đi — họ quay lại."
+          feedback: "Đúng rồi!"
         },
         {
-          text: "Cháu nghĩ nó cổ lắm.",
-          correct: true,
-          feedback: "Thực ra không hẳn. Năm 1947 — giặc Pháp thiêu hủy cả làng Tây Hồ. Phủ tôi bị phá. Người dân chạy hết. Sau khi giặc đi — họ quay lại."
+          text: "2 cửa",
+          correct: false,
+          feedback: "Hãy quan sát lại thật kỹ nhé. Tìm lại đúng vị trí và đếm chính xác hơn."
         },
         {
-          text: "Cháu không biết.",
+          text: "1 cửa",
+          correct: false,
+          feedback: "Hãy quan sát lại thật kỹ nhé. Tìm lại đúng vị trí và đếm chính xác hơn."
+        }
+      ]
+    },
+    postVerifiedDialogues: [
+      "Bây giờ hãy nhìn quanh sân phủ xem nào. Con đang đứng trong sân phủ. Phía trước là ba nếp nhà nối tiếp nhau. Người xưa gọi là Tiền tế, Trung đường và Hậu cung.",
+      "Ở hành trình trước, con đã được cung cấp thông tin về kiến trúc của không gian này, vậy ta sẽ kiểm tra lại một chút: Trong ba lớp ấy, lớp nào thấp nhất?"
+    ],
+    question2: {
+      text: "Trong ba lớp ấy, lớp nào thấp nhất?",
+      choices: [
+        {
+          text: "Tiền tế",
+          correct: false,
+          feedback: "Đáp án là Hậu cung. Nhiều người cũng nghĩ như con bởi nơi thờ chính thường khiến ta nghĩ đến vị trí cao và trang nghiêm nhất. Nhưng ở ngôi phủ này, Hậu cung mới là phần thấp nhất trong ba lớp công trình. Đó là một chi tiết mà không phải ai đến đây cũng để ý. Nào, chúng ta hãy tiếp tục khám phá nhé. Ta còn một câu hỏi nữa dành cho con đây."
+        },
+        {
+          text: "Trung đường",
+          correct: false,
+          feedback: "Đáp án là Hậu cung. Nhiều người cũng nghĩ như con bởi nơi thờ chính thường khiến ta nghĩ đến vị trí cao và trang nghiêm nhất. Nhưng ở ngôi phủ này, Hậu cung mới là phần thấp nhất trong ba lớp công trình. Đó là một chi tiết mà không phải ai đến đây cũng để ý. Nào, chúng ta hãy tiếp tục khám phá nhé. Ta còn một câu hỏi nữa dành cho con đây."
+        },
+        {
+          text: "Hậu cung",
           correct: true,
-          feedback: "Tôi kể cho nghe. Năm 1947 — giặc Pháp thiêu hủy cả làng Tây Hồ. Phủ tôi bị phá. Người dân chạy hết. Sau khi giặc đi — họ quay lại."
+          feedback: "Chính xác! Nhiều người thường nghĩ nơi thờ chính sẽ nằm cao nhất. Nhưng ở ngôi phủ này, Hậu cung lại là phần thấp nhất trong ba lớp công trình. Mỗi ngôi đền, ngôi phủ đều có những cách bố trí riêng, và đó cũng là điều khiến việc khám phá trở nên thú vị."
         }
       ]
     },
     postQuestion2Dialogues: [
-      "Họ dựng lại — không bằng gỗ. Họ không có gỗ. Họ dùng bê tông. Sơn lên cho giống gỗ. Cho giống gạch.",
-      "Cháu sờ vào một cột đi — sờ thử."
+      "Có một điện thờ đặc biệt đang chờ con khám phá. Nào, chúng ta tiếp tục khám phá nhé. Ta còn một câu hỏi nữa dành cho con đây. Hãy đến Điện Sơn Trang."
     ],
-    question3: {
-      text: "Cháu cảm nhận thế nào khi chạm vào cột phủ?",
+    
+    buttonText: "ĐÃ ĐẾN ĐIỆN SƠN TRANG",
+    countdown: 5
+  },
+
+  {
+    stage: 4,
+    title: "Điện Sơn Trang",
+    location: "Vị trí: Điện Sơn Trang",
+    speaker: "Cô",
+    background: anh7,
+    character: anh1,
+    characterName: "Cô",
+    characterStyle: "max-h-[340px] md:max-h-[420px] w-auto drop-shadow-[0_4px_25px_rgba(0,0,0,0.7)] brightness-[0.95]",
+    dialogues: [
+      "Hành trình của chúng ta sẽ tiếp tục tại chính nơi con đang đứng. Trước mặt con là hạ ban của điện Sơn Trang thường sẽ có tượng Ngũ Hổ - tượng trưng cho sức mạnh trấn giữ ngũ phương. Tượng hổ to nhất ở chính giữa có màu gì?"
+    ],
+    question: {
+      text: "Tượng hổ to nhất ở chính giữa có màu gì?",
       choices: [
         {
-          text: "Cứng. Như đá.",
-          correct: true,
-          feedback: "Bê tông đấy. Toàn bộ phủ này — phần lớn là bê tông giả gỗ. Dựng sau năm 1947. Phủ này — không cổ. Nhưng niềm tin dựng nên phủ — đã có trước cả phủ."
+          text: "Trắng",
+          correct: false,
+          feedback: "Hãy tìm lại đúng vị trí và quan sát kỹ hơn nhé."
         },
         {
-          text: "Cháu không sờ được.",
+          text: "Đỏ",
+          correct: false,
+          feedback: "Hãy tìm lại đúng vị trí và quan sát kỹ hơn nhé."
+        },
+        {
+          text: "Không có tượng Ngũ Hổ",
           correct: true,
-          feedback: "Không sao. Toàn bộ phủ này — phần lớn là bê tông giả gỗ. Dựng sau năm 1947. Phủ này — không cổ. Nhưng niềm tin dựng nên phủ — đã có trước cả phủ."
+          feedback: "Khác với những ban thờ khác trong phủ, nơi này mang màu sắc của núi rừng nhiều hơn. Từ các vị Chúa Sơn Trang, các Cô Sơn Trang cho đến những lễ vật dâng cúng, tất cả đều gợi nhớ đến thế giới của cây cối, khe suối và đại ngàn. Điều đó không phải ngẫu nhiên. Hãy cho ta biết vì sao người Việt xưa lại lập riêng một Điện Sơn Trang trong phủ?"
         }
       ]
     },
-    postQuestion3Dialogues: [
-      "Bước tiếp đi. Đi đến cửa hậu cung — chỗ tôi ngự. Đứng ngoài cửa thôi, đừng vào."
+    question2: {
+      text: "Vì sao người Việt xưa lại lập riêng một Điện Sơn Trang trong phủ?",
+      choices: [
+        {
+          text: "Để thờ các vị thần núi rừng",
+          correct: true,
+          feedback: "Chính xác! Đáp án là thờ các vị thần núi rừng. Ngày xưa, mỗi khi vào rừng lấy gỗ, hái thuốc hay mở đất canh tác, người dân đều tin rằng núi rừng có những vị thần cai quản. Vì thế họ lập Điện Sơn Trang để tỏ lòng tôn kính và cầu mong bình an."
+        },
+        {
+          text: "Để tưởng nhớ những người đi khai phá miền núi",
+          correct: false,
+          feedback: "Đáp án là thờ các vị thần núi rừng. Ngày xưa, mỗi khi vào rừng lấy gỗ, hái thuốc hay mở đất canh tác, người dân đều tin rằng núi rừng có những vị thần cai quản. Vì thế họ lập Điện Sơn Trang để tỏ lòng tôn kính và cầu mong bình an. Đó cũng là lý do trong ngôi phủ bên Hồ Tây này lại có một không gian dành riêng cho miền sơn lâm. Nào, mình tiếp tục hành trình nhé."
+        },
+        {
+          text: "Để thờ các loài thú trong rừng",
+          correct: false,
+          feedback: "Đáp án là thờ các vị thần núi rừng. Ngày xưa, mỗi khi vào rừng lấy gỗ, hái thuốc hay mở đất canh tác, người dân đều tin rằng núi rừng có những vị thần cai quản. Vì thế họ lập Điện Sơn Trang để tỏ lòng tôn kính và cầu mong bình an. Đó cũng là lý do trong ngôi phủ bên Hồ Tây này lại có một không gian dành riêng cho miền sơn lâm. Nào, mình tiếp tục hành trình nhé."
+        }
+      ]
+    },
+    postQuestion2Dialogues: [
+      "Hành trình này vẫn còn một mảnh ghép nữa. Đó là những vị Thánh Cô và Thánh Cậu — những người luôn xuất hiện bên cạnh các đấng bề trên trong các tích truyện dân gian. Nào, cùng ta tìm hiểu tiếp nhé."
     ],
-    buttonText: "Tôi đã đến cửa hậu cung",
+    buttonText: "ĐÃ ĐẾN LẦU CÔ - LẦU CẬU",
     countdown: 5
   },
+
   {
-    stage: 3,
-    title: "Hậu Cung",
-    location: "Vị trí: Trước điện Hậu cung",
-    speaker: "Mẫu",
-    background: anh5,
-    character: anh1,
-    characterName: "Mẫu",
-    characterStyle: "max-h-[340px] md:max-h-[420px] w-auto drop-shadow-[0_0_35px_rgba(212,175,55,0.5)] brightness-110 scale-[1.05] animate-float",
-    dialogues: [
-      "Cháu thấy ba tượng không? Áo đỏ ở giữa — là tôi. Hai bên — hai chị em của tôi. Mẫu Thượng Ngàn miền Rừng. Mẫu Thoải miền Nước.",
-      "Cháu đứng yên đây vài phút đi. Tôi muốn kể cháu một chuyện. Chuyện về tôi — không phải vị Mẫu cháu thấy ở đây — mà tôi như một người phụ nữ đã từng sống.",
-      "Tôi sinh ra ở thiên giới. Tên Quỳnh Hoa. Con gái thứ hai của Ngọc Hoàng. Tôi không bị đày xuống trần — tôi tự xin đi.",
-      "Tôi nhìn xuống mặt đất một ngày — thấy người ta đang sống. Tôi muốn biết — yêu thương là gì.",
-      "Tôi xuống. Rơi vào làng Vân Cát. Tôi lấy chồng — chàng Đào Lang. Có một đứa con. Tôi sống — hai mươi mốt năm.",
-      "Rồi tôi phải về trời. Đêm cuối — tôi ngồi rất lâu. Không dám đánh thức ai.",
-      "Tôi không tiếc đã xuống đây. Tôi chỉ tiếc — không có thêm một đêm nữa.",
-      "Tôi về trời. Nhưng không ở được lâu. Tôi xin xuống nữa. Lần này — không gia đình. Tôi mở một quán nước bên Hồ Tây.",
-      "Tôi đợi.",
-      "Quan trạng Phùng Khắc Khoan ghé. Chúng tôi đối đáp thơ. Ông đi. Tôi đi. Ông quay lại — dựng đền. Đó là — phủ này.",
-      "Cháu vừa nghe ba kiếp của tôi. Cháu có thể hỏi tôi một câu — bất cứ câu gì."
-    ],
-    choices: [
-      {
-        text: "Bà có hối tiếc — đã xuống trần ba lần không?",
-        ending: "A",
-        reply: "Mẫu rũ mắt mỉm cười: Tôi đã không hối tiếc. Trần gian tuy khổ cực nhưng có tình người sâu nặng."
-      },
-      {
-        text: "Bà có cô đơn không?",
-        ending: "B",
-        reply: "Mẫu khẽ thở dài trầm ngâm: Tôi cô đơn. Bốn trăm năm nay, người ta đến chỉ cầu xin chứ chưa từng có ai đối thoại chân thành như cháu hôm nay."
-      },
-      {
-        text: "Bà có hạnh phúc không?",
-        ending: "C",
-        reply: "Mẫu nhìn xa xăm: Tôi không biết nữa. Hạnh phúc là từ của người sống. Tôi chỉ có vài khoảnh khắc đẹp đẽ, nhưng như thế đã đủ cho bốn trăm năm."
-      },
-      {
-        text: "Bà — còn đợi ai không?",
-        ending: "D",
-        reply: "Mẫu mỉm cười u trầm: Tôi đợi sự đối đáp. Mỗi người đối đáp hiểu tôi, tôi lại được sống thêm một kiếp trong lòng họ."
-      }
-    ],
-    postChoiceDialogues: [
-      "Cháu hỏi xong rồi. Đi tiếp đi. Một điểm cuối. Đi đến Lầu Cô - Lầu Cậu — hai am thờ nhỏ trong sân."
-    ],
-    buttonText: "Tôi đã đến Lầu Cô - Lầu Cậu",
-    countdown: 5
-  },
-  {
-    stage: 4,
+    stage: 5,
     title: "Lầu Cô - Lầu Cậu",
     location: "Vị trí: Hai am thờ nhỏ bên sân",
-    speaker: "Mẫu",
+    speaker: "Cô",
     background: anh6,
     character: anh1,
-    characterName: "Mẫu",
+    characterName: "Cô",
     characterStyle: "max-h-[340px] md:max-h-[420px] w-auto drop-shadow-[0_4px_25px_rgba(0,0,0,0.7)] brightness-[0.8] opacity-70",
     dialogues: [
-      "Cháu đứng giữa hai am thờ. Bên phải — Lầu Cô. Bên trái — Lầu Cậu.",
-      "Hai vị hầu cận của tôi — các Cô và các Cậu.",
-      "Tôi sẽ cho cháu một thử thách cuối.",
-      "Cháu nghĩ về một điều — một điều cháu chưa nói được với ai. Không cần nói cho tôi. Không cần gõ ra. Chỉ nghĩ trong đầu. Sẵn sàng chưa?"
+      "Trước mặt con là Lầu Cô (hoặc Lầu Cậu). Cho ta biết hai bên lầu có gì?"
     ],
-    choices: [
-      {
-        text: "Sẵn sàng.",
-        reply: "Bây giờ — cháu chọn một bên. Lầu Cô hay Lầu Cậu. Nếu điều đó về tình cảm — đặt tay (hoặc đứng gần) ở Lầu Cô. Nếu điều đó về công danh sự nghiệp học hành — đặt tay ở Lầu Cậu."
-      }
-    ],
-    postChoiceDialogues: [
+    question: {
+      text: "Hai bên lầu có gì?",
+      choices: [
+        {
+          text: "Một đôi câu đối chữ Hán",
+          correct: true,
+          feedback: "Bây giờ con chọn một bên. Lầu Cô hay Lầu Cậu. Nếu điều đó về tình cảm — đứng ở Lầu Cô. Nếu điều đó về công việc — đứng ở Lầu Cậu. Hãy nhắm mắt lại, con nghĩ về một điều mà con mong cầu — một điều con chưa nói được với ai. Chỉ nghĩ trong đầu. Cháu chọn bên nào?"
+        },
+        {
+          text: "Hai bức tranh phong cảnh",
+          correct: false,
+          feedback: "Hãy tìm lại đúng vị trí và quan sát kỹ hơn nhé."
+        },
+        {
+          text: "Hai con hạc đồng",
+          correct: false,
+          feedback: "Hãy tìm lại đúng vị trí và quan sát kỹ hơn nhé."
+        }
+      ]
+    },
+    postQuestion1Dialogues: [
       "Cháu chọn bên nào?"
     ],
     wishChoices: [
       {
-        text: "Tình cảm, gia đạo (Đặt am Lầu Cô bên phải)",
+        text: "Tình cảm, gia đạo (Lầu Cô)",
         wish: "co",
-        reply: "Cháu đã đặt câu hỏi của cháu xuống đây. Tôi giữ cho. Cháu không cần lấy đi. Khi nào cháu cần — quay lại."
+        reply: "Con đã đặt câu hỏi của con xuống đây. Ta sẽ giữ cho con. Hành trình của con trong phủ — đã xong. Hãy quay lại quán nước. Ta sẽ đợi con ở đó."
       },
       {
-        text: "Học hành, công danh (Đặt am Lầu Cậu bên trái)",
+        text: "Công việc, học hành (Lầu Cậu)",
         wish: "cau",
-        reply: "Cháu đã đặt câu hỏi của cháu xuống đây. Tôi giữ cho. Cháu không cần lấy đi. Khi nào cháu cần — quay lại."
+        reply: "Con đã đặt câu hỏi của con xuống đây. Ta sẽ giữ cho con. Hành trình của con trong phủ — đã xong. Hãy quay lại quán nước. Ta sẽ đợi con ở đó."
       }
     ],
-    postWishDialogues: [
-      "Hành trình của cháu trong phủ — đã xong. Quay lại quán nước. Tôi đợi cháu ở đó — chén trà cuối."
-    ],
-    buttonText: "Quay lại quán nước",
-    countdown: 0
+    postWishDialogues: [],
+    buttonText: "QUAY LẠI QUÁN NƯỚC",
+    countdown: 10
   },
   {
-    stage: 5,
+    stage: 6,
     title: "Kết Duyên Lành",
     location: "Vị trí: Quán nước đầu hành trình",
-    speaker: "Mẫu",
+    speaker: "Cô",
 
     background: anh2,
     character: anh1,
-    characterName: "Mẫu",
+    characterName: "Cô",
     characterStyle: "max-h-[340px] md:max-h-[420px] w-auto drop-shadow-[0_4px_25px_rgba(0,0,0,0.7)] brightness-[0.95]",
     dialogues: [
-      "Cháu về rồi. Cháu đã đi qua phủ tôi.",
-      "Đã sờ vào tường — biết nó là bê tông. Đã đọc chữ Hán — biết phủ không cổ. Đã nghe câu chuyện — biết tôi đã ba lần xuống trần.",
-      "Cháu đã hỏi tôi một câu. Tôi đã đáp.",
-      "Cháu đã đặt câu hỏi của cháu xuống Lầu Cô / Lầu Cậu. Tôi giữ cho.",
-      "Cháu vẫn đến. Đó là điều quan trọng nhất.",
-      "Tôi không ở trong tượng cháu vừa thấy. Tôi ở trong việc cháu vẫn đến — sau khi biết tất cả."
-    ],
-    endings: {
-      A: {
-        type: "An Yên",
-        dialogues: [
-          "Tôi đã đáp cháu — tôi không hối tiếc.",
-          "Bây giờ tôi hỏi cháu lại một câu.",
-          "Cháu — sau hôm nay — có hối tiếc gì không?",
-          "...",
-          "Đừng hối tiếc nhiều. Người sống cần đi nhẹ.",
-          "Đi đi — đêm xuống rồi.",
-          "Phủ Tây Hồ — không phải di tích cổ.\nPhủ là — di tích sống.\nSống vì bạn vừa đến."
-        ]
-      },
-      B: {
-        type: "Thấu Cảm",
-        dialogues: [
-          "Tôi đã đáp cháu — tôi cô đơn.",
-          "400 năm — không ai đối thoại với tôi như cháu hôm nay.",
-          "Họ chỉ cầu. Họ không hỏi.",
-          "Cháu — đã hỏi.",
-          "Cháu đã giúp tôi bớt cô đơn — chỉ một chiều.",
-          "Cám ơn cháu.",
-          "Khi nào cháu cô đơn — quay lại. Tôi vẫn ở đây.",
-          "Có những di sản — sống nhờ những người dám đối thoại.\nKhông phải những người chỉ cầu xin."
-        ]
-      },
-      C: {
-        type: "Tự Tại",
-        dialogues: [
-          "Tôi đã đáp cháu — tôi không biết.",
-          "Hạnh phúc là từ của người sống.",
-          "Tôi có vài khoảnh khắc — đủ cho 400 năm.",
-          "Cháu — hôm nay — có một khoảnh khắc cháu sẽ nhớ không?",
-          "...",
-          "Nếu có — giữ nó.",
-          "Đủ — cho rất nhiều ngày sau.",
-          "Một buổi sáng vo gạo.\nMột chiều ghé quán nước.\nMột khoảnh khắc — đủ cho cả đời."
-        ]
-      },
-      D: {
-        type: "Tri Kỷ",
-        dialogues: [
-          "Tôi đã đáp cháu — tôi đợi sự đối đáp.",
-          "Mỗi người đối đáp với tôi — tôi sống thêm một chiều.",
-          "Cháu — sẽ kể ai về tôi không?",
-          "Một người thôi cũng đủ.",
-          "Câu chuyện được kể — di sản còn sống.",
-          "Bốn trăm năm trước — một quan trạng kể về một bà cụ bán nước.\nHôm nay — bạn có thể kể về tôi cho một người khác."
-        ]
-      }
-    }
+      "Con đã hoàn thành hành trình rồi. Từ câu chuyện của vị trạng nguyên năm xưa, Điện Sơn Trang của núi rừng. Đến Lầu Cô, Lầu Cậu bên hồ. Mỗi nơi con đi qua đều là một mảnh ký ức. Và giờ đây, những mảnh ký ức ấy đã ghép lại thành một câu chuyện hoàn chỉnh. Phủ Tây Hồ không chỉ là một điểm đến để dâng hương. Đó còn là nơi lưu giữ lịch sử, tín ngưỡng và những câu chuyện đã được truyền từ thế hệ này sang thế hệ khác. Khi rời khỏi nơi đây, mong rằng con sẽ mang theo không chỉ những bức ảnh đẹp... Mà còn cả những câu chuyện đang sống dưới mái phủ này.",
+      "Hành trình kết thúc. Nhưng việc gìn giữ di sản thì không.\nMỗi câu chuyện được lắng nghe.\nMỗi giá trị được trân trọng.\nMỗi di sản được khám phá.\nĐều là một cách để quá khứ tiếp tục sống trong hiện tại.\nCảm ơn con đã đồng hành cùng Phủ Tây Hồ."
+    ]
   }
 ];
